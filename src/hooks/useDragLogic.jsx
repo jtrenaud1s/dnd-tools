@@ -2,7 +2,6 @@ import { useContext, useRef } from "react";
 import CharacterContext from "../contexts/CharacterContext";
 import MapBoundsContext from "../contexts/MapBoundsContext";
 import SelectedCharacterContext from "../contexts/SelectedCharacterContext";
-import L from "leaflet";
 
 const useDragLogic = (character, icon) => {
   const { bounds } = useContext(MapBoundsContext);
@@ -10,15 +9,13 @@ const useDragLogic = (character, icon) => {
   const { selectedCharacterId, setSelectedCharacterId } = useContext(
     SelectedCharacterContext
   );
-  const isDragging = useRef(false);
+
+  const dragEndTime = useRef(null);
 
   const handleDragStart = () => {
-    if (!isDragging) isDragging.current = true;
-    console.log("dragging");
   };
 
   const handleDrag = (event) => {
-    console.log("drag");
     const marker = event.target;
     let newPos = marker.getLatLng();
 
@@ -42,8 +39,7 @@ const useDragLogic = (character, icon) => {
   };
 
   const handleDragEnd = (event) => {
-    console.log("drag end");
-    L.DomEvent.stopClickPropagation(event);
+    dragEndTime.current = Date.now();
     const marker = event.target;
     const newPos = marker.getLatLng();
     const updatedCharacters = characters.map((char) => {
@@ -55,18 +51,13 @@ const useDragLogic = (character, icon) => {
 
     setCharacters(updatedCharacters);
     localStorage.setItem("characters", JSON.stringify(updatedCharacters));
-    setTimeout(() => {
-      isDragging.current = false;
-    }, 500);
   };
 
-  const handleClick = (event) => {
-    console.log("click", isDragging);
-    L.DomEvent.stopPropagation(event);
-    if (isDragging.current) {
+  const handleClick = () => {
+    if (Date.now() - dragEndTime.current < 200) {
+      // 200ms threshold
       return;
     }
-    console.log("making selectioin");
     if (selectedCharacterId === character.id) {
       setSelectedCharacterId(null);
       return;

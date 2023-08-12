@@ -15,11 +15,11 @@ const DraggableMarker = ({ character }) => {
   const icon = L.icon({
     iconUrl: character.imageUrl,
     iconSize: [100, 100],
-    className: isSelected
+    className: "circle " + (isSelected
       ? character.type === "Friendly"
         ? "friendly-border"
         : "enemy-border"
-      : "",
+      : ""),
   });
 
   const { handleDrag, handleDragEnd, handleClick, handleDragStart } =
@@ -35,7 +35,8 @@ const DraggableMarker = ({ character }) => {
         dragend: handleDragEnd,
         click: handleClick,
         dragstart: handleDragStart,
-      }}>
+      }}
+      autoPan={true}>
       <Tooltip permanent direction="top" offset={[0, -50]}>
         <span
           style={{

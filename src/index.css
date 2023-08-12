@@ -35,7 +35,7 @@ html {
 
 .hud {
   position: absolute !important;
-  top: 5em;
+  top: 3em;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -55,8 +55,8 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 10px;
-  padding: 10px;
+  margin: 0px;
+  padding: 5px;
 }
 
 .character-hud img {
@@ -75,4 +75,8 @@ html {
 .character-hud span {
   margin-top: 5px;
   background-color: rgba(255, 255, 255, 0.8);
+}
+
+.circle {
+  border-radius: 50%;
 }

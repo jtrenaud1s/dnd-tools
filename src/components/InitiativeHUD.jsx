@@ -26,7 +26,7 @@ const InitiativeHUD = () => {
                 {char.currentInitiative + char.initiativeModifier}
               </Tooltip>
             }>
-            <img src={char.imageUrl} alt={char.name} />
+            <img src={char.imageUrl} alt={char.name} draggable="false" />
           </OverlayTrigger>
         </div>
       ))}

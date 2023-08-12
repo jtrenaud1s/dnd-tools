@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, createContext } from "react";
 import { Offcanvas } from "react-bootstrap";
-import NavbarComponent from "./components/NavbarComponent";
+//import NavbarComponent from "./components/NavbarComponent";
 import TabsComponent from "./components/TabsComponent";
 
 export const OffcanvasContext = createContext();
@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
   return (
     <OffcanvasContext.Provider value={showOffcanvas}>
       <div style={{ overflow: "hidden" }}>
-        <NavbarComponent />
+        {/*<NavbarComponent />*/}
 
         {/* Main Content */}
         <div
@@ -39,9 +39,9 @@ const Layout = ({ children }) => {
           placement="end"
           backdrop={false}
           style={{ width: `${offcanvasWidth}px` }}>
-          <Offcanvas.Header closeButton>
+          {/* <Offcanvas.Header closeButton>
             <Offcanvas.Title>Offcanvas</Offcanvas.Title>
-          </Offcanvas.Header>
+          </Offcanvas.Header> */}
           <Offcanvas.Body>
             <TabsComponent />
           </Offcanvas.Body>
