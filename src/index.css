@@ -1,0 +1,34 @@
+* {
+  padding: 0em;
+  margin: 0em;
+}
+
+html {
+  overflow: hidden;
+}
+.tools-tab {
+  position: fixed;
+  top: 15%;
+  right: 0;
+  transform: translateY(-50%);
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  cursor: pointer;
+  z-index: 1050; /* to ensure it's above other elements */
+  transition: right 0.30s ease-in-out;
+}
+
+.tools-tab.expanded {
+  right: 350px; /* width of the offcanvas */
+}
+
+.friendly-border {
+  border: 2px solid green;
+}
+
+.enemy-border {
+  border: 2px solid red;
+}
