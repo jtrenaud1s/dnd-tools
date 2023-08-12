@@ -1,30 +1,19 @@
 /* eslint-disable react/prop-types */
 import { useState, createContext } from "react";
-import { Navbar, Nav, Container, Offcanvas, Tabs, Tab } from "react-bootstrap";
-import CharacterForm from "./components/CharacterForm";
-import MapForm from "./components/MapForm";
+import { Offcanvas } from "react-bootstrap";
+import NavbarComponent from "./components/NavbarComponent";
+import TabsComponent from "./components/TabsComponent";
 
 export const OffcanvasContext = createContext();
 
 const Layout = ({ children }) => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
-
   const offcanvasWidth = 350;
 
   return (
     <OffcanvasContext.Provider value={showOffcanvas}>
       <div style={{ overflow: "hidden" }}>
-        {/* Top Navbar */}
-        <Navbar bg="dark" variant="dark">
-          <Container>
-            <Navbar.Brand href="#home">Brand</Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#features">Features</Nav.Link>
-              <Nav.Link href="#pricing">Pricing</Nav.Link>
-            </Nav>
-          </Container>
-        </Navbar>
+        <NavbarComponent />
 
         {/* Main Content */}
         <div
@@ -54,17 +43,7 @@ const Layout = ({ children }) => {
             <Offcanvas.Title>Offcanvas</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <Tabs defaultActiveKey="add" id="uncontrolled-tab-example">
-              <Tab eventKey="add" title="Character">
-                <CharacterForm />
-              </Tab>
-              <Tab eventKey="map" title="Map">
-                <MapForm />
-              </Tab>
-              <Tab eventKey="initiative" title="Initiative Roll">
-                {/* Initiative roll form */}
-              </Tab>
-            </Tabs>
+            <TabsComponent />
           </Offcanvas.Body>
         </Offcanvas>
       </div>

@@ -7,6 +7,21 @@ const CharacterContext = createContext();
 export const CharacterProvider = ({ children }) => {
   const [characters, setCharacters] = useState([]);
 
+  const addCharacter = (character) => {
+    setCharacters((prev) => [...prev, character]);
+  };
+
+  const editCharacter = (updatedCharacter) => {
+    const newCharacters = characters.map((char) =>
+      char.id === updatedCharacter.id ? updatedCharacter : char
+    );
+    setCharacters(newCharacters);
+  };
+
+  const removeCharacter = (characterId) => {
+    setCharacters((prev) => prev.filter((char) => char.id !== characterId));
+  };
+
   useEffect(() => {
     const storedCharacters = localStorage.getItem("characters");
     if (storedCharacters) {
@@ -18,9 +33,15 @@ export const CharacterProvider = ({ children }) => {
     localStorage.setItem("characters", JSON.stringify(characters));
   }, [characters]);
 
-  console.log([characters, setCharacters]);
   return (
-    <CharacterContext.Provider value={[characters, setCharacters]}>
+    <CharacterContext.Provider
+      value={{
+        characters,
+        addCharacter,
+        editCharacter,
+        removeCharacter,
+        setCharacters,
+      }}>
       {children}
     </CharacterContext.Provider>
   );

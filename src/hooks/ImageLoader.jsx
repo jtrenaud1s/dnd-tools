@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import board from "../assets/board.jpeg";
 
-const useImageLoader = (screenWidth) => {
+export const useImageLoader = (screenWidth) => {
   const [imageDimensions, setImageDimensions] = useState(null);
 
   useEffect(() => {
@@ -15,5 +15,3 @@ const useImageLoader = (screenWidth) => {
 
   return imageDimensions;
 };
-
-export default useImageLoader;

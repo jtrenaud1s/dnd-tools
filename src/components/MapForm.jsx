@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
-import MapContext from "../contexts/MapContext";
+import MapURLContext from "../contexts/MapURLContext";
 
 const MapForm = () => {
-  const [mapUrl, setMapUrl] = useContext(MapContext);
+  const {mapUrl, setMapUrl} = useContext(MapURLContext);
   const [formData, setFormData] = useState({ url: mapUrl });
 
   const handleChange = (e) => {

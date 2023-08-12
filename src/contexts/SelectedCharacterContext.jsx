@@ -8,7 +8,7 @@ export const SelectedCharacterProvider = ({ children }) => {
 
   return (
     <SelectedCharacterContext.Provider
-      value={[selectedCharacterId, setSelectedCharacterId]}>
+      value={{ selectedCharacterId, setSelectedCharacterId }}>
       {children}
     </SelectedCharacterContext.Provider>
   );

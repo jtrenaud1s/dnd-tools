@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import CharacterContext from "../contexts/CharacterContext";
 import SelectedCharacterContext from "../contexts/SelectedCharacterContext";
+import MapURLContext from "../contexts/MapURLContext";
 
 function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -13,10 +14,14 @@ function uuidv4() {
 }
 
 const CharacterForm = () => {
-  const [characters, setCharacters] = useContext(CharacterContext);
-  const [selectedCharacterId, setSelectedCharacterId] = useContext(
+  const { characters, addCharacter, editCharacter, removeCharacter } =
+    useContext(CharacterContext);
+
+  const { selectedCharacterId, setSelectedCharacterId } = useContext(
     SelectedCharacterContext
   );
+  const { mapCenter } = useContext(MapURLContext);
+  console.log(mapCenter);
 
   const selectedCharacter =
     characters.find((char) => char.id === selectedCharacterId) || {};
@@ -26,8 +31,9 @@ const CharacterForm = () => {
     name: "",
     type: "Friendly",
     initiativeModifier: 0,
+    initiativeRoll: 0,
     imageUrl: "",
-    position: { lat: 50, lng: 50 },
+    position: { lat: mapCenter.lat || 100, lng: mapCenter.lng || 100 },
   });
 
   useEffect(() => {
@@ -42,33 +48,39 @@ const CharacterForm = () => {
         name: "",
         type: "Friendly",
         initiativeModifier: 0,
+        initiativeRoll: 0,
         imageUrl: "",
-        position: { lat: 50, lng: 50 },
+        position: { lat: mapCenter.lat, lng: mapCenter.lng },
       });
     }
   }, [selectedCharacterId]);
 
-  const addCharacter = (character) => {
-    setCharacters([...characters, character]);
-  };
-  const editCharacter = (updatedCharacter) => {
-    // Find the index of the character to be updated
-    const charIndex = characters.findIndex(
-      (char) => char.id === updatedCharacter.id
-    );
-
-    // Create a new array with the updated character
-    const newCharacters = [...characters];
-    newCharacters[charIndex] = updatedCharacter;
-
-    // Update the characters state
-    setCharacters(newCharacters);
-  };
-
-  const handleChange = (e) => {
+  const handleNameChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      name: e.target.value,
+    });
+  };
+
+  const handleTypeChange = (e) => {
+    setFormData({
+      ...formData,
+      type: e.target.value,
+    });
+  };
+
+  const handleInitiativeModifierChange = (e) => {
+    const value = parseFloat(e.target.value);
+    setFormData({
+      ...formData,
+      initiativeModifier: isNaN(value) ? 0 : value,
+    });
+  };
+
+  const handleImageUrlChange = (e) => {
+    setFormData({
+      ...formData,
+      imageUrl: e.target.value,
     });
   };
 
@@ -83,9 +95,7 @@ const CharacterForm = () => {
   };
 
   const handleDelete = () => {
-    setCharacters((prevCharacters) =>
-      prevCharacters.filter((char) => char.id !== selectedCharacterId)
-    );
+    removeCharacter(selectedCharacterId);
     setSelectedCharacterId(null);
   };
 
@@ -97,7 +107,7 @@ const CharacterForm = () => {
           type="text"
           name="name"
           value={formData.name}
-          onChange={handleChange}
+          onChange={handleNameChange}
         />
       </Form.Group>
       <Form.Group controlId="type">
@@ -106,7 +116,7 @@ const CharacterForm = () => {
           as="select"
           name="type"
           value={formData.type}
-          onChange={handleChange}>
+          onChange={handleTypeChange}>
           <option>Friendly</option>
           <option>Enemy</option>
         </Form.Control>
@@ -117,7 +127,7 @@ const CharacterForm = () => {
           type="number"
           name="initiativeModifier"
           value={formData.initiativeModifier}
-          onChange={handleChange}
+          onChange={handleInitiativeModifierChange}
         />
       </Form.Group>
       <Form.Group controlId="imageUrl">
@@ -126,7 +136,7 @@ const CharacterForm = () => {
           type="text"
           name="imageUrl"
           value={formData.imageUrl}
-          onChange={handleChange}
+          onChange={handleImageUrlChange}
         />
       </Form.Group>
       <Button variant="primary" type="submit">
