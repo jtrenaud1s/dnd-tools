@@ -11,7 +11,7 @@ const InitiativeRoller = (): JSX.Element => {
     const roll = Math.floor(Math.random() * 20) + 1;
     const updatedCharacters = characters.map((char: Character) => {
       if (char.id === selectedCharacterId) {
-        return { ...char, currentInitiative: roll };
+        return { ...char, initiativeRoll: roll };
       }
       return char;
     });
