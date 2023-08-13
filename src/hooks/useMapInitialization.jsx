@@ -3,8 +3,7 @@ import CharacterContext from "../contexts/CharacterContext.jsx";
 import MapURLContext from "../contexts/MapURLContext.jsx";
 
 const useMapInitialization = (mapRef, mapUrl) => {
-  const { characters, setCharacters } =
-    useContext(CharacterContext);
+  const { characters, setCharacters } = useContext(CharacterContext);
   const { setMapCenter } = useContext(MapURLContext);
 
   useEffect(() => {
