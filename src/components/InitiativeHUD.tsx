@@ -1,21 +1,21 @@
 import { useContext } from "react";
-import CharacterContext from "../contexts/CharacterContext";
+import CharacterContext, { Character } from "../contexts/CharacterContext";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import FlipMove from "react-flip-move";
 
-const InitiativeHUD = () => {
+const InitiativeHUD = (): JSX.Element => {
   const { characters } = useContext(CharacterContext);
 
   const sortedCharacters = [...characters].sort(
-    (a, b) =>
-      b.currentInitiative +
+    (a: Character, b: Character) =>
+      b.initiativeRoll +
       b.initiativeModifier -
-      (a.currentInitiative + a.initiativeModifier)
+      (a.initiativeRoll + a.initiativeModifier)
   );
 
   return (
     <FlipMove className="hud">
-      {sortedCharacters.map((char) => (
+      {sortedCharacters.map((char: Character) => (
         <div key={char.id} className={`character-hud ${char.type}`}>
           <OverlayTrigger
             placement="bottom"
@@ -23,7 +23,7 @@ const InitiativeHUD = () => {
               <Tooltip>
                 {char.name}
                 <br />
-                {char.currentInitiative + char.initiativeModifier}
+                {char.initiativeRoll + char.initiativeModifier}
               </Tooltip>
             }>
             <img src={char.imageUrl} alt={char.name} draggable="false" />

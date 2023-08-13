@@ -1,17 +1,17 @@
 import { useContext } from "react";
-import CharacterContext from "../contexts/CharacterContext";
+import CharacterContext, { Character } from "../contexts/CharacterContext";
 import SelectedCharacterContext from "../contexts/SelectedCharacterContext";
 import { Button } from "react-bootstrap";
 
-const InitiativeRoller = () => {
+const InitiativeRoller = (): JSX.Element => {
   const { selectedCharacterId } = useContext(SelectedCharacterContext);
   const { characters, setCharacters } = useContext(CharacterContext);
 
   const rollD20 = () => {
     const roll = Math.floor(Math.random() * 20) + 1;
-    const updatedCharacters = characters.map((char) => {
+    const updatedCharacters = characters.map((char: Character) => {
       if (char.id === selectedCharacterId) {
-        return { ...char, currentInitiative: roll };
+        return { ...char, initiativeRoll: roll };
       }
       return char;
     });
@@ -19,7 +19,7 @@ const InitiativeRoller = () => {
   };
 
   const selectedCharacter = characters.find(
-    (char) => char.id === selectedCharacterId
+    (char: Character) => char.id === selectedCharacterId
   );
 
   return (
@@ -32,10 +32,11 @@ const InitiativeRoller = () => {
       </Button>
       {selectedCharacter && (
         <h1>
-          {selectedCharacter.name} rolled a {selectedCharacter.currentInitiative}
+          {selectedCharacter.name} rolled a {selectedCharacter.initiativeRoll}
         </h1>
       )}
     </>
   );
 };
+
 export default InitiativeRoller;

@@ -2,18 +2,18 @@ import { useState, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
 import MapURLContext from "../contexts/MapURLContext";
 
-const MapForm = () => {
-  const {mapUrl, setMapUrl} = useContext(MapURLContext);
-  const [formData, setFormData] = useState({ url: mapUrl });
+const MapForm = (): JSX.Element => {
+  const { mapUrl, setMapUrl } = useContext(MapURLContext);
+  const [formData, setFormData] = useState<{ url: string }>({ url: mapUrl });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setMapUrl(formData.url);
     localStorage.setItem("mapUrl", formData.url);

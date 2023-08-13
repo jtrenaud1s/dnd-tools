@@ -1,21 +1,34 @@
 import { useContext, useRef } from "react";
-import CharacterContext from "../contexts/CharacterContext";
+import { LeafletMouseEvent } from "leaflet";
+import CharacterContext, { Character } from "../contexts/CharacterContext";
 import MapBoundsContext from "../contexts/MapBoundsContext";
 import SelectedCharacterContext from "../contexts/SelectedCharacterContext";
 
-const useDragLogic = (character, icon) => {
+
+export interface UseDragLogicProps {
+  character: Character;
+  icon: any;
+}
+
+export interface DragLogicEventHandlers {
+  handleDrag: (event: LeafletMouseEvent) => void;
+  handleDragEnd: (event: LeafletMouseEvent) => void;
+  handleClick: () => void;
+  handleDragStart: () => void;
+}
+
+export const useDragLogic = ({ character, icon }: UseDragLogicProps): DragLogicEventHandlers => {
   const { bounds } = useContext(MapBoundsContext);
   const { characters, setCharacters } = useContext(CharacterContext);
   const { selectedCharacterId, setSelectedCharacterId } = useContext(
     SelectedCharacterContext
   );
 
-  const dragEndTime = useRef(null);
+  const dragEndTime = useRef<number | null>(null);
 
-  const handleDragStart = () => {
-  };
+  const handleDragStart = () => {};
 
-  const handleDrag = (event) => {
+  const handleDrag = (event: LeafletMouseEvent) => {
     const marker = event.target;
     let newPos = marker.getLatLng();
 
@@ -38,11 +51,11 @@ const useDragLogic = (character, icon) => {
     marker.setLatLng(newPos);
   };
 
-  const handleDragEnd = (event) => {
+  const handleDragEnd = (event: LeafletMouseEvent) => {
     dragEndTime.current = Date.now();
     const marker = event.target;
     const newPos = marker.getLatLng();
-    const updatedCharacters = characters.map((char) => {
+    const updatedCharacters = characters.map((char: Character) => {
       if (char.id === character.id) {
         return { ...char, position: newPos };
       }
@@ -54,7 +67,7 @@ const useDragLogic = (character, icon) => {
   };
 
   const handleClick = () => {
-    if (Date.now() - dragEndTime.current < 200) {
+    if (dragEndTime.current && Date.now() - dragEndTime.current < 200) {
       // 200ms threshold
       return;
     }
