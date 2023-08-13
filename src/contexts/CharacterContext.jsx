@@ -8,6 +8,7 @@ export const CharacterProvider = ({ children }) => {
   const [characters, setCharacters] = useState([]);
 
   const addCharacter = (character) => {
+    console.log(character);
     setCharacters((prev) => [...prev, character]);
   };
 

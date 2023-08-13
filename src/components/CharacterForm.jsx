@@ -21,7 +21,6 @@ const CharacterForm = () => {
     SelectedCharacterContext
   );
   const { mapCenter } = useContext(MapURLContext);
-  console.log(mapCenter);
 
   const selectedCharacter =
     characters.find((char) => char.id === selectedCharacterId) || {};
@@ -33,14 +32,14 @@ const CharacterForm = () => {
     initiativeModifier: 0,
     initiativeRoll: 0,
     imageUrl: "",
-    position: { lat: mapCenter.lat || 100, lng: mapCenter.lng || 100 },
+    position: { lat: mapCenter[0], lng: mapCenter[1] },
   });
 
   useEffect(() => {
     if (selectedCharacterId) {
       setFormData({
         ...selectedCharacter,
-        position: selectedCharacter.position || { lat: 50, lng: 50 },
+        position: selectedCharacter.position,
       });
     } else {
       setFormData({
@@ -50,7 +49,7 @@ const CharacterForm = () => {
         initiativeModifier: 0,
         initiativeRoll: 0,
         imageUrl: "",
-        position: { lat: mapCenter.lat, lng: mapCenter.lng },
+        position: { lat: mapCenter[0], lng: mapCenter[1] },
       });
     }
   }, [selectedCharacterId]);
@@ -89,6 +88,7 @@ const CharacterForm = () => {
     if (selectedCharacterId) {
       editCharacter(formData);
     } else {
+      console.log(mapCenter);
       addCharacter(formData);
     }
     setSelectedCharacterId(null); // Deselect the character after submitting

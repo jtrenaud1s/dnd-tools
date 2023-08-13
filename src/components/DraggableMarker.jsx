@@ -15,11 +15,13 @@ const DraggableMarker = ({ character }) => {
   const icon = L.icon({
     iconUrl: character.imageUrl,
     iconSize: [100, 100],
-    className: "circle " + (isSelected
-      ? character.type === "Friendly"
-        ? "friendly-border"
-        : "enemy-border"
-      : ""),
+    className:
+      "circle " +
+      (isSelected
+        ? character.type === "Friendly"
+          ? "friendly-border"
+          : "enemy-border"
+        : ""),
   });
 
   const { handleDrag, handleDragEnd, handleClick, handleDragStart } =
