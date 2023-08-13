@@ -1,8 +1,6 @@
-import { useState, createContext, ReactNode } from "react";
-import { Offcanvas } from "react-bootstrap";
+import { useState, ReactNode } from "react";
 import TabsComponent from "./components/TabsComponent";
-
-export const OffcanvasContext = createContext<boolean>(false);
+import Offcanvas from "./components/Offcanvas";
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,7 +11,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
   const offcanvasWidth = 350;
 
   return (
-    <OffcanvasContext.Provider value={showOffcanvas}>
+    <>
       <div style={{ overflow: "hidden" }}>
         <div
           style={{
@@ -22,25 +20,11 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
           }}>
           {children}
         </div>
-        <div
-          className={`tools-tab ${showOffcanvas ? "expanded" : ""}`}
-          onClick={() => setShowOffcanvas(!showOffcanvas)} // Toggle the offcanvas state
-        >
-          Tools
-        </div>
-        <Offcanvas
-          className="offcanvas-theme"
-          show={showOffcanvas}
-          onHide={() => setShowOffcanvas(false)}
-          placement="end"
-          backdrop={false}
-          style={{ width: `${offcanvasWidth}px` }}>
-          <Offcanvas.Body>
-            <TabsComponent />
-          </Offcanvas.Body>
+        <Offcanvas title="My Offcanvas" side="right" backdrop={false}>
+          <TabsComponent />
         </Offcanvas>
       </div>
-    </OffcanvasContext.Provider>
+    </>
   );
 };
 

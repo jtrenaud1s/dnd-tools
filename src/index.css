@@ -2,31 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  padding: 0em;
-  margin: 0em;
-}
 
 html {
   overflow: hidden;
-}
-.tools-tab {
-  position: fixed;
-  top: 15%;
-  right: 0;
-  transform: translateY(-50%);
-  background-color: #333;
-  color: white;
-  padding: 10px 20px;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  cursor: pointer;
-  z-index: 1050; /* to ensure it's above other elements */
-  transition: right 0.3s ease-in-out;
-}
-
-.tools-tab.expanded {
-  right: 350px; /* width of the offcanvas */
 }
 
 .friendly-border {
@@ -83,25 +61,4 @@ html {
 
 .circle {
   border-radius: 50%;
-}
-
-
-/* Dark red background for the offcanvas */
-.offcanvas-theme {
-  background-color: #8B0000; /* Dark red */
-  color: #FFF; /* White text */
-}
-
-/* Styling for the tools-tab */
-.tools-tab {
-  cursor: pointer;
-  padding: 10px;
-  background-color: #A52A2A; /* Slightly lighter red for contrast */
-  color: #FFF; /* White text */
-  border: 1px solid #8B0000; /* Dark red border */
-  transition: all 0.3s ease-in-out;
-}
-
-.tools-tab.expanded {
-  background-color: #8B0000; /* Dark red when expanded */
 }

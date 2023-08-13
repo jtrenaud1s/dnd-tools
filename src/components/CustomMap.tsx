@@ -35,14 +35,14 @@ const CustomMap = (): JSX.Element => {
     return (
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}>
+        style={{ height: "100vh", zIndex: "1000" }}>
         <Spinner animation="border" />
       </div>
     );
   }
 
   return (
-    <div className="map-container">
+    <div className="">
       <InitiativeHUD />
       <MapContainer
         ref={mapRef}
@@ -56,7 +56,7 @@ const CustomMap = (): JSX.Element => {
         maxBounds={bounds}
         maxBoundsViscosity={1}
         attributionControl={false}>
-        <ImageOverlay url={mapUrl} bounds={bounds} zIndex={1} />
+        <ImageOverlay url={mapUrl} bounds={bounds} />
         {characters.map((character) => (
           <DraggableMarker key={character.id} character={character} />
         ))}

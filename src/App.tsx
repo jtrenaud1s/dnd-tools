@@ -13,7 +13,12 @@ function App(): JSX.Element {
           <SelectedCharacterProvider>
             <Layout>
               <div
-                style={{ overflow: "hidden", height: "100vh", width: "100vw" }}>
+                style={{
+                  overflow: "hidden",
+                  height: "100vh",
+                  width: "100vw",
+                  zIndex: "-10",
+                }}>
                 <CustomMap />
               </div>
             </Layout>
