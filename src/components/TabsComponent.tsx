@@ -3,7 +3,7 @@ import CharacterForm from "./CharacterForm";
 import MapForm from "./MapForm";
 import InitiativeRoller from "./InitiativeRoller";
 
-const TabsComponent = () => {
+const TabsComponent = (): JSX.Element => {
   return (
     <Tabs defaultActiveKey="add" id="uncontrolled-tab-example">
       <Tab eventKey="add" title="Character">

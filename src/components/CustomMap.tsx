@@ -1,29 +1,34 @@
-/* eslint-disable react/prop-types */
 import { useContext, useEffect, useRef } from "react";
 import { MapContainer, ImageOverlay } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import DraggableMarker from "./DraggableMarker";
 import { useImageLoader } from "../hooks/ImageLoader";
 import { Spinner } from "react-bootstrap";
 import useMapInitialization from "../hooks/useMapInitialization";
 import useSetBounds from "../hooks/useSetBounds";
-import MapURLContext from "../contexts/MapURLContext";
-import MapBoundsContext from "../contexts/MapBoundsContext";
+import MapURLContext, { MapURLContextValue } from "../contexts/MapURLContext";
+import MapBoundsContext, {
+  MapBoundsContextValue,
+} from "../contexts/MapBoundsContext";
+import DraggableMarker from "./DraggableMarker";
 import InitiativeHUD from "./InitiativeHUD";
 
-const CustomMap = () => {
-  const { mapUrl, setMapCenter, mapCenter } = useContext(MapURLContext);
-  const { bounds } = useContext(MapBoundsContext);
+const CustomMap = (): JSX.Element => {
+  const { mapUrl, setMapCenter, mapCenter } =
+    useContext<MapURLContextValue>(MapURLContext);
+  const { bounds } = useContext<MapBoundsContextValue>(MapBoundsContext);
   const imageDimensions = useImageLoader(window.innerWidth);
-  const mapRef = useRef(null);
+  const mapRef = useRef<L.Map>(null);
 
-  const characters = useMapInitialization(mapRef, mapUrl);
+  const characters = useMapInitialization({ mapRef, mapUrl });
   useSetBounds(imageDimensions);
 
   useEffect(() => {
     if (!imageDimensions || !bounds) return;
-    setMapCenter([imageDimensions.height / 2, imageDimensions.width / 2]);
+    setMapCenter({
+      lat: imageDimensions.height / 2,
+      lng: imageDimensions.width / 2,
+    });
   }, [mapUrl, imageDimensions, bounds, setMapCenter]);
 
   if (!imageDimensions || !bounds) {
@@ -53,11 +58,7 @@ const CustomMap = () => {
         attributionControl={false}>
         <ImageOverlay url={mapUrl} bounds={bounds} zIndex={1} />
         {characters.map((character) => (
-          <DraggableMarker
-            key={character.id}
-            image={character.imageUrl}
-            character={character}
-          />
+          <DraggableMarker key={character.id} character={character} />
         ))}
       </MapContainer>
     </div>

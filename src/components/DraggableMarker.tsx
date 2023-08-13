@@ -1,12 +1,15 @@
-/* eslint-disable react/prop-types */
-import { useContext } from "react";
-import { Marker, useMap, Tooltip } from "react-leaflet";
 import L from "leaflet";
+import { useContext } from "react";
+import { Marker, Tooltip, useMap } from "react-leaflet";
 import useDragLogic from "../hooks/useDragLogic";
 import SelectedCharacterContext from "../contexts/SelectedCharacterContext";
+import { Character } from "../contexts/CharacterContext";
 
-const DraggableMarker = ({ character }) => {
-  // eslint-disable-next-line no-unused-vars
+const DraggableMarker = ({
+  character,
+}: {
+  character: Character;
+}): JSX.Element => {
   const map = useMap();
 
   const { selectedCharacterId } = useContext(SelectedCharacterContext);
@@ -25,7 +28,7 @@ const DraggableMarker = ({ character }) => {
   });
 
   const { handleDrag, handleDragEnd, handleClick, handleDragStart } =
-    useDragLogic(character, icon);
+    useDragLogic({ character, icon });
 
   return (
     <Marker
@@ -33,8 +36,8 @@ const DraggableMarker = ({ character }) => {
       draggable={true}
       icon={icon}
       eventHandlers={{
-        drag: handleDrag,
-        dragend: handleDragEnd,
+        drag: handleDrag as L.LeafletEventHandlerFn,
+        dragend: handleDragEnd as L.LeafletEventHandlerFn,
         click: handleClick,
         dragstart: handleDragStart,
       }}

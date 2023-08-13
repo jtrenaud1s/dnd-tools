@@ -1,7 +1,8 @@
 import { useEffect, useContext } from "react";
-import MapBoundsContext from "../contexts/MapBoundsContext.jsx";
+import MapBoundsContext from "../contexts/MapBoundsContext";
+import { ImageDimensions } from "./ImageLoader";
 
-const useSetBounds = (imageDimensions) => {
+const useSetBounds = (imageDimensions: ImageDimensions | null): void => {
   const { setBounds } = useContext(MapBoundsContext);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 
-const NavbarComponent = () => {
+const NavbarComponent = (): JSX.Element => {
   return (
     <Navbar bg="dark" variant="dark">
       <Container>

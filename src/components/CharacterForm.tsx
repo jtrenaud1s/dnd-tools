@@ -1,11 +1,26 @@
 /* eslint-disable react/prop-types */
 import { useContext, useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import CharacterContext from "../contexts/CharacterContext";
+import CharacterContext, {
+  Character,
+  Position,
+} from "../contexts/CharacterContext";
 import SelectedCharacterContext from "../contexts/SelectedCharacterContext";
 import MapURLContext from "../contexts/MapURLContext";
 
-function uuidv4() {
+interface FormData {
+  id: string;
+  name: string;
+  type: string;
+  initiativeModifier: number;
+  initiativeRoll: number;
+  imageUrl: string;
+  position: Position;
+}
+
+type CharacterSelection = Character | undefined;
+
+function uuidv4(): string {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     var r = (Math.random() * 16) | 0,
       v = c === "x" ? r : (r & 0x3) | 0x8;
@@ -13,7 +28,7 @@ function uuidv4() {
   });
 }
 
-const CharacterForm = () => {
+const CharacterForm = (): JSX.Element => {
   const { characters, addCharacter, editCharacter, removeCharacter } =
     useContext(CharacterContext);
 
@@ -22,21 +37,22 @@ const CharacterForm = () => {
   );
   const { mapCenter } = useContext(MapURLContext);
 
-  const selectedCharacter =
-    characters.find((char) => char.id === selectedCharacterId) || {};
+  const selectedCharacter: CharacterSelection = characters.find(
+    (char) => char.id === selectedCharacterId
+  );
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     id: uuidv4(),
     name: "",
     type: "Friendly",
     initiativeModifier: 0,
     initiativeRoll: 0,
     imageUrl: "",
-    position: { lat: mapCenter[0], lng: mapCenter[1] },
+    position: mapCenter,
   });
 
   useEffect(() => {
-    if (selectedCharacterId) {
+    if (selectedCharacter) {
       setFormData({
         ...selectedCharacter,
         position: selectedCharacter.position,
@@ -49,54 +65,48 @@ const CharacterForm = () => {
         initiativeModifier: 0,
         initiativeRoll: 0,
         imageUrl: "",
-        position: { lat: mapCenter[0], lng: mapCenter[1] },
+        position: mapCenter,
       });
     }
   }, [selectedCharacterId]);
 
-  const handleNameChange = (e) => {
+  const handleChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ): void => {
     setFormData({
       ...formData,
-      name: e.target.value,
+      [event.target.name]:
+        event.target.type === "number"
+          ? parseInt(event.target.value)
+          : event.target.value,
     });
   };
 
-  const handleTypeChange = (e) => {
-    setFormData({
-      ...formData,
-      type: e.target.value,
-    });
-  };
-
-  const handleInitiativeModifierChange = (e) => {
-    const value = parseFloat(e.target.value);
-    setFormData({
-      ...formData,
-      initiativeModifier: isNaN(value) ? 0 : value,
-    });
-  };
-
-  const handleImageUrlChange = (e) => {
-    setFormData({
-      ...formData,
-      imageUrl: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
     if (selectedCharacterId) {
       editCharacter(formData);
     } else {
-      console.log(mapCenter);
       addCharacter(formData);
     }
-    setSelectedCharacterId(null); // Deselect the character after submitting
+    setFormData({
+      id: uuidv4(),
+      name: "",
+      type: "Friendly",
+      initiativeModifier: 0,
+      initiativeRoll: 0,
+      imageUrl: "",
+      position: mapCenter,
+    });
   };
 
-  const handleDelete = () => {
-    removeCharacter(selectedCharacterId);
-    setSelectedCharacterId(null);
+  const handleDelete = (): void => {
+    if (selectedCharacterId) {
+      removeCharacter(selectedCharacterId);
+      setSelectedCharacterId(null);
+    }
   };
 
   return (
@@ -107,7 +117,8 @@ const CharacterForm = () => {
           type="text"
           name="name"
           value={formData.name}
-          onChange={handleNameChange}
+          onChange={handleChange}
+          required
         />
       </Form.Group>
       <Form.Group controlId="type">
@@ -116,9 +127,9 @@ const CharacterForm = () => {
           as="select"
           name="type"
           value={formData.type}
-          onChange={handleTypeChange}>
-          <option>Friendly</option>
-          <option>Enemy</option>
+          onChange={handleChange}>
+          <option value="Friendly">Friendly</option>
+          <option value="Enemy">Enemy</option>
         </Form.Control>
       </Form.Group>
       <Form.Group controlId="initiativeModifier">
@@ -127,7 +138,7 @@ const CharacterForm = () => {
           type="number"
           name="initiativeModifier"
           value={formData.initiativeModifier}
-          onChange={handleInitiativeModifierChange}
+          onChange={handleChange}
         />
       </Form.Group>
       <Form.Group controlId="imageUrl">
@@ -136,18 +147,15 @@ const CharacterForm = () => {
           type="text"
           name="imageUrl"
           value={formData.imageUrl}
-          onChange={handleImageUrlChange}
+          onChange={handleChange}
         />
       </Form.Group>
       <Button variant="primary" type="submit">
-        {selectedCharacterId ? "Edit" : "Add"} Character
+        {selectedCharacterId ? "Save" : "Add"}
       </Button>
       {selectedCharacterId && (
-        <Button
-          variant="danger"
-          onClick={handleDelete}
-          style={{ marginLeft: "10px" }}>
-          Delete Character
+        <Button variant="danger" onClick={handleDelete}>
+          Delete
         </Button>
       )}
     </Form>

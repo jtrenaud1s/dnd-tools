@@ -1,8 +1,16 @@
 import { useEffect, useContext } from "react";
-import CharacterContext from "../contexts/CharacterContext.jsx";
-import MapURLContext from "../contexts/MapURLContext.jsx";
+import CharacterContext, { Character } from "../contexts/CharacterContext";
+import MapURLContext from "../contexts/MapURLContext";
 
-const useMapInitialization = (mapRef, mapUrl) => {
+export interface UseMapInitializationProps {
+  mapRef: React.RefObject<L.Map>;
+  mapUrl: string;
+}
+
+const useMapInitialization = ({
+  mapRef,
+  mapUrl,
+}: UseMapInitializationProps): Character[] => {
   const { characters, setCharacters } = useContext(CharacterContext);
   const { setMapCenter } = useContext(MapURLContext);
 
