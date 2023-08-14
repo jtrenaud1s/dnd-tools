@@ -5,6 +5,7 @@ export default {
     extend: {
       zIndex: {
         450: "450",
+        500: "500",
       },
     },
   },

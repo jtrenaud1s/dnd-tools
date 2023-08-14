@@ -7,20 +7,21 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps): JSX.Element => {
-  const [showOffcanvas, setShowOffcanvas] = useState(false);
-  const offcanvasWidth = 350;
-
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <div style={{ overflow: "hidden" }}>
-        <div
-          style={{
-            width: showOffcanvas ? `calc(100% - ${offcanvasWidth}px)` : "100%",
-            transition: "transform 0.3s ease-in-out",
-          }}>
-          {children}
-        </div>
-        <Offcanvas title="My Offcanvas" side="right" backdrop={false}>
+        <div>{children}</div>
+        <button
+          className="absolute left-0 top-10 bg-green-600 text-white rounded px-4 py-1 z-450"
+          onClick={() => setIsOpen(true)}>
+          Toggle
+        </button>
+        <Offcanvas
+          title="test"
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          side="right">
           <TabsComponent />
         </Offcanvas>
       </div>
