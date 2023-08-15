@@ -1,7 +1,6 @@
 import { Tabs, Tab } from "react-bootstrap";
 import CharacterForm from "./CharacterForm";
 import MapForm from "./MapForm";
-import InitiativeRoller from "./InitiativeRoller";
 
 const TabsComponent = (): JSX.Element => {
   return (
@@ -11,9 +10,6 @@ const TabsComponent = (): JSX.Element => {
       </Tab>
       <Tab eventKey="map" title="Map">
         <MapForm />
-      </Tab>
-      <Tab eventKey="initiative" title="Initiative Roll">
-        <InitiativeRoller />
       </Tab>
     </Tabs>
   );

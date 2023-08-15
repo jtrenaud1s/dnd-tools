@@ -23,19 +23,19 @@ const InitiativeRoller = (): JSX.Element => {
   );
 
   return (
-    <>
-      <Button
-        variant="primary"
+    <div className="flex justify-center flex-col items-center">
+      <button
+        className="bg-red-600 self-center text-white rounded px-4 py-1 mb-4"
         onClick={rollD20}
         disabled={!selectedCharacterId}>
-        Roll Initiative
-      </Button>
+        Roll D20
+      </button>
       {selectedCharacter && (
-        <h1>
+        <span className="text-center bg-gray-300 w-auto p-3 flex-1 rounded">
           {selectedCharacter.name} rolled a {selectedCharacter.initiativeRoll}
-        </h1>
+        </span>
       )}
-    </>
+    </div>
   );
 };
 

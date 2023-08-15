@@ -42,7 +42,7 @@ const CustomMap = (): JSX.Element => {
   }
 
   return (
-    <div className="">
+    <div className="w-full h-full">
       <InitiativeHUD />
       <MapContainer
         ref={mapRef}
@@ -51,11 +51,12 @@ const CustomMap = (): JSX.Element => {
         zoomSnap={0.1}
         maxZoom={10}
         minZoom={0.1}
-        style={{ height: "100vh", width: "100vw" }}
         crs={L.CRS.Simple}
+        className="h-full w-full"
         maxBounds={bounds}
         maxBoundsViscosity={1}
-        attributionControl={false}>
+        attributionControl={false}
+        >
         <ImageOverlay url={mapUrl} bounds={bounds} />
         {characters.map((character) => (
           <DraggableMarker key={character.id} character={character} />

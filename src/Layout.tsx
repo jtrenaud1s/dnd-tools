@@ -1,19 +1,29 @@
-import { useState, ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import TabsComponent from "./components/TabsComponent";
 import Offcanvas from "./components/Offcanvas";
+import InitiativeRoller from "./components/InitiativeRoller";
+import SelectedCharacterContext from "./contexts/SelectedCharacterContext";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { selectedCharacterId } = useContext(SelectedCharacterContext);
   return (
     <>
       <div style={{ overflow: "hidden" }}>
         <div>{children}</div>
-        <Offcanvas isOpen={isOpen} setIsOpen={setIsOpen} position="left">
+        <Offcanvas position="right" backdrop={false}>
           <TabsComponent />
+        </Offcanvas>
+        <Offcanvas
+          position="bottom"
+          backdrop={false}
+          transparent
+          override={true}
+          overrideOpen={selectedCharacterId != null}>
+          <InitiativeRoller />
         </Offcanvas>
       </div>
     </>
