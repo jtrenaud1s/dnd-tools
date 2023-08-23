@@ -1,4 +1,4 @@
-import CustomMap from "./components/CustomMap";
+import MapCanvas from "./components/MapCanvas";
 import Layout from "./Layout";
 import { CharacterProvider } from "./contexts/CharacterContext";
 import { SelectedCharacterProvider } from "./contexts/SelectedCharacterContext";
@@ -13,7 +13,7 @@ function App(): JSX.Element {
           <SelectedCharacterProvider>
             <Layout>
               <div className="overflow-hidden h-screen w-screen">
-                <CustomMap />
+                <MapCanvas />
               </div>
             </Layout>
           </SelectedCharacterProvider>

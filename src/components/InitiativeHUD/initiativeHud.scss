@@ -1,0 +1,33 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.hud {
+  @apply top-3 left-1/2 -translate-x-1/2 flex flex-row z-450 bg-transparent p-1 align-baseline;
+  position: absolute !important;
+
+  .character {
+    @apply relative m-0 p-1;
+
+    img {
+      @apply w-20 h-20;
+    }
+
+    &.Friendly img {
+      @apply border-2 border-blue-500;
+    }
+
+    &.Enemy img {
+      @apply border-2 border-red-500;
+    }
+
+    span {
+      @apply absolute bottom-0 right-0 bg-black text-white text-xs rounded-full px-1;
+    }
+  }
+
+  & span {
+    margin-top: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+}

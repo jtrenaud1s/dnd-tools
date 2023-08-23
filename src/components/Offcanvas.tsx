@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 
 interface OffcanvasProps {
   position?: "left" | "right" | "bottom" | "top";
@@ -30,11 +30,11 @@ function Offcanvas({
   }, [isOpen]);
 
   const toggleButtonBaseClasses =
-    "fixed z-450 bg-green-600 text-white rounded px-4 py-1 transition-transform duration-500 ease-in-out";
+    "fixed z-450 bg-red-700 text-white rounded-sm cursor-pointer px-4 py-1 transition-transform duration-500 ease-in-out";
 
   const toggleButtonPositionClasses = {
-    right: "top-1/2 translate-x-1/2 right-0",
-    left: "top-1/2 translate-x-1/2 left-0",
+    right: "top-1/4 translate-x-1/2 right-0",
+    left: "top-1/4 translate-x-1/2 left-0",
     bottom: "bottom-0 left-1/2 translate-y-1/2",
     top: "top-0 left-1/2 translate-y-1/2",
   };
@@ -58,8 +58,9 @@ function Offcanvas({
 
   const backdropClasses = `fixed bg-gray-900 bg-opacity-25 overflow-hidden inset-0 transform ease-in-out z-450`;
 
-  const offCanvasBaseClasses =
-    `absolute shadow-xl delay-400 duration-500 ease-in-out transition-all transform z-450 p-2 ${transparent ? "bg-transparent" : "bg-white"}`;
+  const offCanvasBaseClasses = `absolute shadow-xl delay-400 duration-500 ease-in-out transition-all transform z-450 p-2 ${
+    transparent ? "bg-transparent" : "bg-white"
+  }`;
 
   const offcanvasPositionClasses = {
     left: "w-1/6 max-w-lg left-0 top-0 h-full",
@@ -101,12 +102,12 @@ function Offcanvas({
     <>
       {/* Toggle Button */}
       {!override && (
-        <button
+        <div
           style={{ ...toggleButtonStyle[position] }}
           className={toggleButtonClasses}
           onClick={handleToggle}>
-          {isOpen ? "Close" : "Open"}
-        </button>
+          <span className="rotate-90">Toolbox</span>
+        </div>
       )}
       {/* Backdrop */}
       {backdrop && isOpen && <div className={backdropClasses} />}

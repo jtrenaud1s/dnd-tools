@@ -1,7 +1,7 @@
 import { ReactNode, useContext } from "react";
 import TabsComponent from "./components/TabsComponent";
 import Offcanvas from "./components/Offcanvas";
-import InitiativeRoller from "./components/InitiativeRoller";
+import InitiativeRoller from "./components/InitiativeHUD/InitiativeRoller";
 import SelectedCharacterContext from "./contexts/SelectedCharacterContext";
 
 interface LayoutProps {
