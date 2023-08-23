@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import CharacterContext, { Character } from "../contexts/CharacterContext";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import CharacterContext, { Character } from "../../contexts/CharacterContext";
 import FlipMove from "react-flip-move";
+import "./initiativeHud.scss";
 
 const InitiativeHUD = (): JSX.Element => {
   const { characters } = useContext(CharacterContext);
@@ -16,8 +16,8 @@ const InitiativeHUD = (): JSX.Element => {
   return (
     <FlipMove className="hud">
       {sortedCharacters.map((char: Character) => (
-        <div key={char.id} className={`character-hud ${char.type}`}>
-          <OverlayTrigger
+        <div key={char.id} className={`character ${char.type}`}>
+          {/* <OverlayTrigger
             placement="bottom"
             overlay={
               <Tooltip>
@@ -25,9 +25,12 @@ const InitiativeHUD = (): JSX.Element => {
                 <br />
                 {char.initiativeRoll + char.initiativeModifier}
               </Tooltip>
-            }>
-            <img src={char.imageUrl} alt={char.name} draggable="false" />
-          </OverlayTrigger>
+            }> */}
+          <img src={char.imageUrl} alt={char.name} draggable="false" />
+          <span className={`${char.type}`}>
+            {char.initiativeRoll + char.initiativeModifier}
+          </span>
+          {/* </OverlayTrigger> */}
         </div>
       ))}
     </FlipMove>
