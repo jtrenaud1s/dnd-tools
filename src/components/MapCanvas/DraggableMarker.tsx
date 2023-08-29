@@ -1,9 +1,9 @@
 import L from "leaflet";
 import { useContext } from "react";
 import { Marker, Tooltip, useMap } from "react-leaflet";
-import useDragLogic from "../hooks/useDragLogic";
-import SelectedCharacterContext from "../contexts/SelectedCharacterContext";
-import { Character } from "../contexts/CharacterContext";
+import useDragLogic from "../../hooks/useDragLogic";
+import SelectedCharacterContext from "../../contexts/SelectedCharacterContext";
+import { Character } from "../../contexts/CharacterContext";
 
 const DraggableMarker = ({
   character,
@@ -19,11 +19,11 @@ const DraggableMarker = ({
     iconUrl: character.imageUrl,
     iconSize: [100, 100],
     className:
-      "circle " +
+      "character " +
       (isSelected
         ? character.type === "Friendly"
-          ? "friendly-border"
-          : "enemy-border"
+          ? "friendly"
+          : "enemy"
         : ""),
   });
 
@@ -43,14 +43,7 @@ const DraggableMarker = ({
       }}
       autoPan={true}>
       <Tooltip permanent direction="top" offset={[0, -50]}>
-        <span
-          style={{
-            backgroundColor: "white",
-            padding: "2px 5px",
-            borderRadius: "3px",
-          }}>
-          {character.name}
-        </span>
+        <span className="name">{character.name}</span>
       </Tooltip>
     </Marker>
   );

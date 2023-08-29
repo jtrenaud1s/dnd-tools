@@ -1,12 +1,10 @@
-/* eslint-disable react/prop-types */
 import { useContext, useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
 import CharacterContext, {
   Character,
   Position,
-} from "../contexts/CharacterContext";
-import SelectedCharacterContext from "../contexts/SelectedCharacterContext";
-import MapURLContext from "../contexts/MapURLContext";
+} from "../../contexts/CharacterContext";
+import SelectedCharacterContext from "../../contexts/SelectedCharacterContext";
+import MapURLContext from "../../contexts/MapURLContext";
 
 interface FormData {
   id: string;
@@ -22,7 +20,7 @@ type CharacterSelection = Character | undefined;
 
 function uuidv4(): string {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
+    const r = (Math.random() * 16) | 0,
       v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
@@ -110,55 +108,46 @@ const CharacterForm = (): JSX.Element => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="name">
-        <Form.Label>Name</Form.Label>
-        <Form.Control
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-      </Form.Group>
-      <Form.Group controlId="type">
-        <Form.Label>Type</Form.Label>
-        <Form.Control
-          as="select"
-          name="type"
-          value={formData.type}
-          onChange={handleChange}>
-          <option value="Friendly">Friendly</option>
-          <option value="Enemy">Enemy</option>
-        </Form.Control>
-      </Form.Group>
-      <Form.Group controlId="initiativeModifier">
-        <Form.Label>Initiative Modifier</Form.Label>
-        <Form.Control
-          type="number"
-          name="initiativeModifier"
-          value={formData.initiativeModifier}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group controlId="imageUrl">
-        <Form.Label>Image URL</Form.Label>
-        <Form.Control
-          type="text"
-          name="imageUrl"
-          value={formData.imageUrl}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        {selectedCharacterId ? "Save" : "Add"}
-      </Button>
-      {selectedCharacterId && (
-        <Button variant="danger" onClick={handleDelete}>
-          Delete
-        </Button>
-      )}
-    </Form>
+    <form onSubmit={handleSubmit}>
+      <input
+        className="w-full"
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        placeholder="Character Name"
+        required
+      />
+      <select
+        className="w-full"
+        name="type"
+        value={formData.type}
+        onChange={handleChange}
+        placeholder="Team">
+        <option value="Friendly">Friendly</option>
+        <option value="Enemy">Enemy</option>
+      </select>
+      <input
+        className="w-full"
+        type="number"
+        name="initiativeModifier"
+        value={formData.initiativeModifier}
+        onChange={handleChange}
+        placeholder="Initiative Modifier"
+      />
+      <input
+        className="w-full"
+        type="text"
+        name="imageUrl"
+        value={formData.imageUrl}
+        onChange={handleChange}
+        placeholder="Image URL"
+      />
+      <div className="flex flex-row align-start justify-between w-full">
+        <button type="submit">{selectedCharacterId ? "Save" : "Add"}</button>
+        {selectedCharacterId && <button onClick={handleDelete}>Delete</button>}
+      </div>
+    </form>
   );
 };
 

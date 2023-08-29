@@ -1,0 +1,30 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.canvas {
+  @apply w-full h-full;
+
+  .leaflet-tooltip {
+    @apply bg-gray-800 text-white border-2 border-gray-950 rounded-lg;
+
+    &:before {
+      @apply hidden;
+    }
+    span.name {
+      @apply px-1;
+    }
+  }
+}
+
+.character {
+  @apply rounded-full;
+
+  &.friendly {
+    @apply border-2 border-blue-500;
+  }
+
+  &.enemy {
+    @apply border-2 border-red-500;
+  }
+}

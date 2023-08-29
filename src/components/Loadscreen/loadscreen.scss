@@ -1,0 +1,10 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.loadscreen {
+  @apply d-flex justify-content-center align-items-center w-full h-full z-950;
+  .spinner {
+    @apply w-16 h-16 border-t-4 border-red-500 border-solid rounded-full animate-spin z-1000;
+  }
+}

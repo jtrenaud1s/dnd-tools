@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import { Form, Button } from "react-bootstrap";
 import MapURLContext from "../contexts/MapURLContext";
 
 const MapForm = (): JSX.Element => {
@@ -20,21 +19,19 @@ const MapForm = (): JSX.Element => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="mapUrl">
-        <Form.Label>Map Image URL</Form.Label>
-        <Form.Control
-          type="text"
-          name="url"
-          value={formData.url}
-          onChange={handleChange}
-          placeholder="Enter map image URL"
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit">
+    <form onSubmit={handleSubmit}>
+      <input
+        className="w-full"
+        type="text"
+        name="url"
+        value={formData.url}
+        onChange={handleChange}
+        placeholder="Map Image URL"
+      />
+      <button className="w-full" type="submit">
         Update Map
-      </Button>
-    </Form>
+      </button>
+    </form>
   );
 };
 

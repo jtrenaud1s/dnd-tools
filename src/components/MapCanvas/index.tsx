@@ -2,18 +2,21 @@ import { useContext, useEffect, useRef } from "react";
 import { MapContainer, ImageOverlay } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useImageLoader } from "../hooks/ImageLoader";
-import { Spinner } from "react-bootstrap";
-import useMapInitialization from "../hooks/useMapInitialization";
-import useSetBounds from "../hooks/useSetBounds";
-import MapURLContext, { MapURLContextValue } from "../contexts/MapURLContext";
+import { useImageLoader } from "../../hooks/ImageLoader";
+import useMapInitialization from "../../hooks/useMapInitialization";
+import useSetBounds from "../../hooks/useSetBounds";
+import MapURLContext, {
+  MapURLContextValue,
+} from "../../contexts/MapURLContext";
 import MapBoundsContext, {
   MapBoundsContextValue,
-} from "../contexts/MapBoundsContext";
+} from "../../contexts/MapBoundsContext";
 import DraggableMarker from "./DraggableMarker";
-import InitiativeHUD from "./InitiativeHUD";
+import InitiativeHUD from "../InitiativeHUD";
+import "./mapCanvas.scss";
+import Loadscreen from "../Loadscreen";
 
-const CustomMap = (): JSX.Element => {
+const MapCanvas = (): JSX.Element => {
   const { mapUrl, setMapCenter, mapCenter } =
     useContext<MapURLContextValue>(MapURLContext);
   const { bounds } = useContext<MapBoundsContextValue>(MapBoundsContext);
@@ -32,17 +35,11 @@ const CustomMap = (): JSX.Element => {
   }, [mapUrl, imageDimensions, bounds, setMapCenter]);
 
   if (!imageDimensions || !bounds) {
-    return (
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}>
-        <Spinner animation="border" />
-      </div>
-    );
+    return <Loadscreen />;
   }
 
   return (
-    <div className="map-container">
+    <>
       <InitiativeHUD />
       <MapContainer
         ref={mapRef}
@@ -50,19 +47,20 @@ const CustomMap = (): JSX.Element => {
         zoom={0}
         zoomSnap={0.1}
         maxZoom={10}
-        minZoom={0.1}
-        style={{ height: "100vh", width: "100vw" }}
+        minZoom={0}
         crs={L.CRS.Simple}
+        
+        className="canvas"
         maxBounds={bounds}
         maxBoundsViscosity={1}
         attributionControl={false}>
-        <ImageOverlay url={mapUrl} bounds={bounds} zIndex={1} />
+        <ImageOverlay url={mapUrl} bounds={bounds} />
         {characters.map((character) => (
           <DraggableMarker key={character.id} character={character} />
         ))}
       </MapContainer>
-    </div>
+    </>
   );
 };
 
-export default CustomMap;
+export default MapCanvas;
